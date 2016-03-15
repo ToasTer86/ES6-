@@ -1,0 +1,1 @@
+cmd_/mnt/hgfs/ES6-/assignment1/kernel/kernelsys.ko := ld -r -m elf_i386 -T /usr/src/linux-headers-3.13.0-45-generic/scripts/module-common.lds --build-id  -o /mnt/hgfs/ES6-/assignment1/kernel/kernelsys.ko /mnt/hgfs/ES6-/assignment1/kernel/kernelsys.o /mnt/hgfs/ES6-/assignment1/kernel/kernelsys.mod.o

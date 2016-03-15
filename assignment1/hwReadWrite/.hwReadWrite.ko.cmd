@@ -1,0 +1,1 @@
+cmd_/mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.ko := arm-linux-ld -EL -r  -T /home/student/felabs/sysdev/tinysystem/linux-2.6.34/scripts/module-common.lds --build-id -o /mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.ko /mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.o /mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o
