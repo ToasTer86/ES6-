@@ -1,7 +1,7 @@
-cmd_/mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o := arm-linux-gcc -Wp,-MD,/mnt/hgfs/ES6-/assignment1/hwReadWrite/.hwReadWrite.mod.o.d  -nostdinc -isystem /usr/local/xtools/arm-unknown-linux-uclibcgnueabi/lib/gcc/arm-unknown-linux-uclibcgnueabi/4.4.3/include -I/home/student/felabs/sysdev/tinysystem/linux-2.6.34/arch/arm/include -Iinclude  -include include/generated/autoconf.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-lpc32xx/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -fno-delete-null-pointer-checks -Os -marm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=aapcs-linux -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm9tdmi -msoft-float -Uarm -Wframe-larger-than=1024 -fno-stack-protector -fno-omit-frame-pointer -fno-optimize-sibling-calls -g -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fno-dwarf2-cfi-asm -fconserve-stack  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(hwReadWrite.mod)"  -D"KBUILD_MODNAME=KBUILD_STR(hwReadWrite)"  -DMODULE -c -o /mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o /mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.c
+cmd_/home/student/Documents/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o := arm-linux-gcc -Wp,-MD,/home/student/Documents/ES6-/assignment1/hwReadWrite/.hwReadWrite.mod.o.d  -nostdinc -isystem /usr/local/xtools/arm-unknown-linux-uclibcgnueabi/lib/gcc/arm-unknown-linux-uclibcgnueabi/4.4.3/include -I/home/student/felabs/sysdev/tinysystem/linux-2.6.34/arch/arm/include -Iinclude  -include include/generated/autoconf.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-lpc32xx/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -fno-delete-null-pointer-checks -Os -marm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=aapcs-linux -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm9tdmi -msoft-float -Uarm -Wframe-larger-than=1024 -fno-stack-protector -fno-omit-frame-pointer -fno-optimize-sibling-calls -g -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fno-dwarf2-cfi-asm -fconserve-stack  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(hwReadWrite.mod)"  -D"KBUILD_MODNAME=KBUILD_STR(hwReadWrite)"  -DMODULE -c -o /home/student/Documents/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o /home/student/Documents/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.c
 
-deps_/mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o := \
-  /mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.c \
+deps_/home/student/Documents/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o := \
+  /home/student/Documents/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.c \
     $(wildcard include/config/module/unload.h) \
   include/linux/module.h \
     $(wildcard include/config/symbol/prefix.h) \
@@ -288,6 +288,6 @@ deps_/mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o := \
   include/linux/vermagic.h \
   include/generated/utsrelease.h \
 
-/mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o: $(deps_/mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o)
+/home/student/Documents/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o: $(deps_/home/student/Documents/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o)
 
-$(deps_/mnt/hgfs/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o):
+$(deps_/home/student/Documents/ES6-/assignment1/hwReadWrite/hwReadWrite.mod.o):

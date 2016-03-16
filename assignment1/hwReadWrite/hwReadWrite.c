@@ -1,35 +1,47 @@
-// includes 
+/**
+ * Includes from the linux/kernel libraries 
+ * */
 #include <linux/kernel.h>    
 #include <linux/module.h>    
 #include <linux/kobject.h>   
 #include <linux/device.h>
 #include <linux/io.h>
 #include <linux/init.h>
+#include <linux/errno.h>
+#include <linux/unistd.h>
 
-// macros for physical & virtual memory mapping
+/**
+ * Physical to virtual and virtual to physical address mapping macros
+ * */
 #define IO_BASE		0xF0000000
 #define io_p2v(x) 	(IO_BASE | (((x) & 0xff000000) >> 4) | ((x) & 0x000fffff))
 #define io_v2p(x) 	((((x) & 0x0ff00000) << 4) | ((x) & 0x000fffff))
 
-//Defines for sysfs 
+/**
+ * Defines for our kernel attributes
+ * */
 #define max_data 1024
 #define kernel_dir	"hwReadWrite"
 #define	kernel_file	"result"
 
-#define n_registers_location 2
-#define r_address_location 4
-
-#define w_address_location 2
-#define w_value_location 13
+#define msg_param_offset 2
 
 static ssize_t used_buffer_size = 0;
 
-// this method is used when the user wants to read n registers // 
+volatile int errno = 0;
+
+/**
+ * Handles the read function
+ * buffer: the incoming message to be handled
+ * */
 static void handle_read(const char *buffer)
-{
-	int registers_to_read = simple_strtol(&buffer[n_registers_location], NULL, 10);
-	int i;
-	int start_address = simple_strtol(&buffer[r_address_location], NULL, 16);
+{	
+	int i;	
+	char *endPtr;
+	int registers_to_read = simple_strtol(buffer, &endPtr, 10);
+	endPtr++; //Set endPtr ahead one position of the space in the message	
+
+	int start_address = simple_strtol(endPtr, NULL, 16);
 	printk(KERN_INFO "Reading %i memory registers, starting at address 0x%08x\n", registers_to_read, start_address);
 	
 	for(i = 0; i < registers_to_read; i++)
@@ -41,18 +53,29 @@ static void handle_read(const char *buffer)
 	}
 }
 
-// this method is used when the user wants to write to a register //
+/**
+ * Handles the write function
+ * buffer: the incoming message to be handled
+ * */
 static void handle_write(const char* buffer)
 {
-	int address_to_write = simple_strtol(&buffer[r_address_location], NULL, 16);
-	int value_to_write = simple_strtol(&buffer[w_value_location], NULL, 16);
+	char *endPtr;
+	int address_to_write = simple_strtol(buffer, &endPtr, 16);
+	endPtr++; //Set endPtr ahead one position of the space in the message	
+	int value_to_write = simple_strtol(endPtr, NULL, 16);
 	
 	printk( KERN_INFO "Writing value 0x%x to memory address 0x%08x\n", value_to_write, address_to_write);
 	
 	iowrite32(value_to_write, io_p2v(address_to_write));
 }
 
-// this method is called when the user calls 'echo' on the kernel module //
+/**
+ * This method is called when the user calls echo on our kernel module
+ * *dev and *attr: not yet required for our functionality
+ * buffer: the message that is being echoed to our kernel
+ * size: the size of the message.
+ * return value: if return != count, then sysfs will call echo with the remainder of the message. (should not be >1024 bytes)
+ * */
 static ssize_t sysfs_store(struct device *dev, struct device_attribute *attr, const char *buffer, size_t count)
 {
     if ( count > max_data )
@@ -67,11 +90,11 @@ static ssize_t sysfs_store(struct device *dev, struct device_attribute *attr, co
 	
 	if(strncmp(buffer, "r", 1) == 0)
 	{
-		handle_read(buffer);
+		handle_read(&buffer[msg_param_offset]);
 	}
 	else if(strncmp(buffer, "w", 1) == 0)
 	{
-		handle_write(buffer);
+		handle_write(&buffer[msg_param_offset]);
 	}
 	else
 	{
@@ -87,6 +110,12 @@ static ssize_t sysfs_store(struct device *dev, struct device_attribute *attr, co
     return used_buffer_size;
 }
 
+/**
+ * result =  our file where we store user input  /sys/kernel/hwReadWrite/result
+ * S_IWUGO =  our kernel only requires write permissions for that reason S_IWUGO
+ * NULL =  we dont have to read from our kernel file
+ * sysfs_store =  The method that should be called when we echo to the kernel
+ **/
 static DEVICE_ATTR(result, S_IWUGO, NULL, sysfs_store);
 static struct attribute *attrs[] = { &dev_attr_result.attr, NULL};
 static struct attribute_group attr_group = {.attrs = attrs,};
@@ -95,14 +124,22 @@ static struct kobject *this_obj = NULL;
 int __init sysfs_init(void)
 {
     int result = 0;
-
+    
+	/**
+	 * Here we write our kernel into the kobject pointer
+	 * the 2nd parameter here implies that our kernel should be stored in /sys/kernel/
+	 **/
     this_obj = kobject_create_and_add(kernel_dir, kernel_kobj);
+    
     if (this_obj == NULL)
     {
         printk (KERN_INFO "%s kernel module could not be created \n", kernel_dir);
         return -ENOMEM;
     }
-
+	
+	/**
+	 * inject our result file into the kernel folder that was created earlier
+	 **/
     result = sysfs_create_group(this_obj, &attr_group);
     if (result != 0)
     {
