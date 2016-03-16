@@ -1,0 +1,1 @@
+cmd_/mnt/hgfs/ES6-/assignment1/test/test.ko := arm-linux-ld -EL -r  -T /home/student/felabs/sysdev/tinysystem/linux-2.6.34/scripts/module-common.lds --build-id -o /mnt/hgfs/ES6-/assignment1/test/test.ko /mnt/hgfs/ES6-/assignment1/test/test.o /mnt/hgfs/ES6-/assignment1/test/test.mod.o
